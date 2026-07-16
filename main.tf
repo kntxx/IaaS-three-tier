@@ -65,6 +65,7 @@ module "shared_services" {
 
   vnet_app_id       = module.network.vnet_app_id
   bastion_subnet_id = module.network.snet_bastion_id
+  admin_object_id   = var.admin_object_id
 }
 
 
