@@ -86,7 +86,7 @@ resource "datadog_dashboard" "infrastructure_overview" {
       request {
         q = "'${var.web_vmss_id}'"
       }
-      custom_links {
+      custom_link {
         label = "Open in Azure Portal"
         link  = "https://portal.azure.com/#resource${var.web_vmss_id}"
       }
@@ -99,7 +99,7 @@ resource "datadog_dashboard" "infrastructure_overview" {
       request {
         q = "'${var.app_vmss_id}'"
       }
-      custom_links {
+      custom_link {
         label = "Open in Azure Portal"
         link  = "https://portal.azure.com/#resource${var.app_vmss_id}"
       }

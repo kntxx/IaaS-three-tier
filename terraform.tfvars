@@ -1,3 +1,3 @@
-rg_name  = "IaaS-three_tier"
+rg_name  = "rg-IaaS-three-tier-easia"
 location = "eastasia"
 env      = "production"
