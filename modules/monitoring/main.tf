@@ -81,28 +81,17 @@ resource "datadog_dashboard" "infrastructure_overview" {
   }
   
   widget {
-    query_value_definition {
-      title = "Web VMSS Azure Resource ID"
-      request {
-        q = "'${var.web_vmss_id}'"
-      }
-      custom_link {
-        label = "Open in Azure Portal"
-        link  = "https://portal.azure.com/#resource${var.web_vmss_id}"
-      }
-    }
+  note_definition {
+    content           = "**Web VMSS**\n[Open in Azure Portal](https://portal.azure.com/#resource${var.web_vmss_id})"
+    background_color  = "white"
   }
+}
+
 
   widget {
-    query_value_definition {
-      title = "App VMSS Azure Resource ID"
-      request {
-        q = "'${var.app_vmss_id}'"
-      }
-      custom_link {
-        label = "Open in Azure Portal"
-        link  = "https://portal.azure.com/#resource${var.app_vmss_id}"
-      }
-    }
+  note_definition {
+    content           = "**App VMSS**\n[Open in Azure Portal](https://portal.azure.com/#resource${var.app_vmss_id})"
+    background_color  = "white"
   }
+}
 }
