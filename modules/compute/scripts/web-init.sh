@@ -12,7 +12,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     try:
-        # Calls the internal load balancer dynamically!
+        
         req = urllib.request.urlopen('http://${internal_lb_ip}:8080/')
         api_response = req.read().decode('utf-8')
         return f"<h1>Web Tier Online!</h1><h3>App Tier Response:</h3><pre>{api_response}</pre>"

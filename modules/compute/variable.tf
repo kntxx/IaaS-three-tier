@@ -45,7 +45,7 @@ variable "db_admin_user" {
 }
 
 variable "db_admin_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 

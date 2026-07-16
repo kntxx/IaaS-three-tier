@@ -1,8 +1,9 @@
 resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
-  name                = "vmss_web"
-  resource_group_name = var.rg_name
-  location            = var.location
-  admin_username      = var.vm_username
+  name                 = "vmss_web"
+  computer_name_prefix = "vmss-web-"
+  resource_group_name  = var.rg_name
+  location             = var.location
+  admin_username       = var.vm_username
 
   instances                       = 2
   disable_password_authentication = true
@@ -48,6 +49,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
 
 resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
   name                            = "vmss_app"
+  computer_name_prefix            = "vmss-app-"
   resource_group_name             = var.rg_name
   location                        = var.location
   admin_username                  = var.vm_username
@@ -86,11 +88,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
     }
   }
 
- custom_data = base64encode(
+  custom_data = base64encode(
     templatefile("${path.module}/scripts/app-init.sh", {
-      db_user = var.db_admin_user
-      db_pass = var.db_admin_password
-      db_fqdn = var.db_fqdn
+      db_user      = var.db_admin_user
+      db_pass      = var.db_admin_password
+      db_fqdn      = var.db_fqdn
       storage_name = var.storage_account_name
       storage_key  = var.storage_access_key
     })

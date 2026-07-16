@@ -8,7 +8,7 @@ resource "azurerm_network_security_group" "nsg_web" {
 
   # Allow HTTP/HTTPS from the Application Gateway in the Hub
   security_rule {
-    name                       = "Allow-HTTP/S-From-AppGW"
+    name                       = "Allow-HTTPS-From-AppGW"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"

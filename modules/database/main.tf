@@ -13,10 +13,10 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   administrator_login    = var.admin_user
   administrator_password = var.admin_password
 
-  backup_retention_days = 7
-
-  delegated_subnet_id = var.snet_db_id
-  private_dns_zone_id = var.private_dns_zone_id
+  backup_retention_days         = 7
+  public_network_access_enabled = false
+  delegated_subnet_id           = var.snet_db_id
+  private_dns_zone_id           = var.private_dns_zone_id
 
   sku_name   = "B_Standard_B1ms"
   storage_mb = 32768

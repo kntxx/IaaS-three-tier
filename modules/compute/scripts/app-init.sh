@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def health_check():
-    # --- 1. Test PostgreSQL Connection ---
+    
     db_host = "${db_fqdn}"
     db_user = "${db_user}"
     db_pass = "${db_pass}"
@@ -27,7 +27,7 @@ def health_check():
     except Exception as e:
         db_status = f"Database connection failed: {str(e)}"
 
-    # --- 2. Test Blob Storage Connection ---
+    
     storage_account_name = "${storage_name}"
     storage_account_key = "${storage_key}"
     storage_conn_str = f"DefaultEndpointsProtocol=https;AccountName={storage_account_name};AccountKey={storage_account_key};EndpointSuffix=core.windows.net"
@@ -40,7 +40,7 @@ def health_check():
     except Exception as e:
         storage_status = f"Storage connection failed: {str(e)}"
 
-    # --- 3. Return Combined JSON Response ---
+   
     return jsonify({
         "status": "Success", 
         "message": "Traffic successfully reached the App Tier!",
