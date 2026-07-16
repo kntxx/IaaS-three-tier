@@ -14,3 +14,8 @@ variable "datadog_api_key" {
 variable "env" {
   type = string
 }
+
+variable "datadog_app_key" {
+  type        = string
+  sensitive   = true 
+}
