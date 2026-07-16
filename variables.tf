@@ -10,3 +10,7 @@ variable "datadog_api_key" {
   type      = string
   sensitive = true
 }
+
+variable "env" {
+  type = string
+}

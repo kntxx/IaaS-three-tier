@@ -30,7 +30,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
   }
 
   network_interface {
-    name = "ni-webb"
+    name    = "ni-webb"
     primary = true
     ip_configuration {
       name                                         = "internal"
@@ -77,7 +77,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
   }
 
   network_interface {
-    name = "ni-app"
+    name    = "ni-app"
     primary = true
     ip_configuration {
       name      = "internal"
@@ -105,7 +105,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "datadog_web" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_web.id
   publisher                    = "Datadog.Agent"
   type                         = "DatadogLinuxAgent"
-  type_handler_version         = "2.0"
+  type_handler_version         = "1.0"
   settings = jsonencode({
     site = "datadoghq.com"
   })
@@ -120,7 +120,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "datadog_app" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_app.id
   publisher                    = "Datadog.Agent"
   type                         = "DatadogLinuxAgent"
-  type_handler_version         = "2.0"
+  type_handler_version         = "1.0"
 
   settings = jsonencode({
     site = "datadoghq.com"

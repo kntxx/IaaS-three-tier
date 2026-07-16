@@ -11,18 +11,21 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "rg-devOps-shared"     
-    storage_account_name = "staccounttffstates01"      
-    container_name       = "tfstate"                   
-    key                  = "threetier.prod.tfstate"    
+    resource_group_name  = "rg-devOps-shared"
+    storage_account_name = "staccounttffstates01"
+    container_name       = "tfstate"
+    key                  = "threetier.prod.tfstate"
   }
 
 }
 
-
+provider "datadog" {
+  api_key = var.datadog_api_key
+  app_key = var.datadog_app_key
+}
 provider "azurerm" {
   features {}
-  
+
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -80,7 +83,7 @@ module "compute" {
 
   db_fqdn = module.database.postgres_fqdn
 
-  storage_access_key = module.storage.storage_access_key
+  storage_access_key   = module.storage.storage_access_key
   storage_account_name = module.storage.storage_account_name
 }
 
@@ -113,6 +116,16 @@ module "database" {
 module "storage" {
   source = "./modules/storage"
 
-  rg_name = azurerm_resource_group.rg.name
+  rg_name  = azurerm_resource_group.rg.name
   location = azurerm_resource_group.rg.location
+}
+
+module "monitoring" {
+  source = "./modules/monitoring"
+
+
+  web_vmss_id   = module.compute.web_vmss_id
+  app_vmss_id = module.compute.app_vmss_id
+  postgres_name = module.database.postgres_server_name
+  env           = var.env
 }

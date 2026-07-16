@@ -21,6 +21,11 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   sku_name   = "B_Standard_B1ms"
   storage_mb = 32768
 
-
+  lifecycle {
+    ignore_changes = [
+      zone,
+      high_availability[0].standby_availability_zone
+    ]
+  }
 
 }
