@@ -21,6 +21,8 @@ jobs:
       ARM_USE_OIDC: true
       TF_VAR_datadog_api_key: ${{ secrets.DATADOG_API_KEY }}
       TF_VAR_datadog_app_key: ${{ secrets.DATADOG_APP_KEY }}
+      TF_VAR_admin_object_id: ${{ secrets.TF_VAR_ADMIN_OBJECT_ID }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
