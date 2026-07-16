@@ -31,7 +31,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
 
   network_interface {
     name = "ni-webb"
-
+    primary = true
     ip_configuration {
       name                                         = "internal"
       primary                                      = true
@@ -78,7 +78,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
 
   network_interface {
     name = "ni-app"
-
+    primary = true
     ip_configuration {
       name      = "internal"
       primary   = true
