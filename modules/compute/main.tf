@@ -53,7 +53,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
   resource_group_name             = var.rg_name
   location                        = var.location
   admin_username                  = var.vm_username
-  instances                       = 2
+  instances                       = 1
   disable_password_authentication = true
   zones                           = ["1", "2", "3"]
   sku                             = "Standard_B2ats_v2"
