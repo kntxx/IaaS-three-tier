@@ -109,7 +109,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "datadog_web" {
   auto_upgrade_minor_version   = true
   settings = jsonencode({
     site = "us5.datadoghq.com"
-    tags = "environment:${var.env}"
+    tags = ["environment:${var.env}"]
   })
   protected_settings = jsonencode({
     api_key = var.datadog_api_key
@@ -127,7 +127,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "datadog_app" {
 
   settings = jsonencode({
     site = "us5.datadoghq.com"
-    tags = "environment:${var.env}"
+    tags = ["environment:${var.env}"]
   })
   protected_settings = jsonencode({
     api_key = var.datadog_api_key
