@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Wait for any competing apt process (e.g. unattended-upgrades on first boot) to release the lock
 while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
   sleep 5
 done
@@ -24,10 +23,15 @@ def health_check():
     db_user = "${db_user}"
     db_pass = "${db_pass}"
     db_name = "postgres"
-    conn_uri = f"postgresql://{db_user}:{db_pass}@{db_host}:5432/{db_name}?sslmode=require"
 
     try:
-        conn = psycopg2.connect(conn_uri)
+        conn = psycopg2.connect(
+            host=db_host,
+            user=db_user,
+            password=db_pass,
+            dbname=db_name,
+            sslmode="require"
+        )
         conn.close()
         db_status = "Successfully connected to PostgreSQL!"
     except Exception as e:
