@@ -105,9 +105,10 @@ resource "azurerm_virtual_machine_scale_set_extension" "datadog_web" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_web.id
   publisher                    = "Datadog.Agent"
   type                         = "DatadogLinuxAgent"
-  type_handler_version         = "1.0"
+  type_handler_version         = "7.0"
+  auto_upgrade_minor_version   = true
   settings = jsonencode({
-    site = "datadoghq.com"
+    site = "us5.datadoghq.com"
   })
   protected_settings = jsonencode({
     api_key = var.datadog_api_key
@@ -120,10 +121,11 @@ resource "azurerm_virtual_machine_scale_set_extension" "datadog_app" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_app.id
   publisher                    = "Datadog.Agent"
   type                         = "DatadogLinuxAgent"
-  type_handler_version         = "1.0"
+  type_handler_version         = "7.0"
+  auto_upgrade_minor_version   = true
 
   settings = jsonencode({
-    site = "datadoghq.com"
+    site = "us5.datadoghq.com"
   })
   protected_settings = jsonencode({
     api_key = var.datadog_api_key
