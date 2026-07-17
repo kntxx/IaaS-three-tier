@@ -1,12 +1,20 @@
 #!/bin/bash
 
-while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
-  sleep 5
-done
+wait_for_apt() {
+  while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 \
+     || sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1 \
+     || sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+    sleep 5
+  done
+}
 
+wait_for_apt
 apt-get update
+
+wait_for_apt
 apt-get install -y python3-pip python3-venv
 
+wait_for_apt
 python3 -m venv /home/linuxadmin/api_env
 /home/linuxadmin/api_env/bin/pip install flask psycopg2-binary azure-storage-blob
 
