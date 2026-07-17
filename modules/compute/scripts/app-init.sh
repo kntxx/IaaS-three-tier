@@ -1,7 +1,9 @@
 #!/bin/bash
 apt-get update
-apt-get install -y python3-pip
-pip3 install flask psycopg2-binary azure-storage-blob --break-system-packages
+apt-get install -y python3-pip python3-venv
+
+python3 -m venv /home/linuxadmin/api_env
+/home/linuxadmin/api_env/bin/pip install flask psycopg2-binary azure-storage-blob
 
 cat << 'PYTHON' > /home/linuxadmin/app_api.py
 from flask import Flask, jsonify
@@ -47,7 +49,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
 PYTHON
 
-chown linuxadmin:linuxadmin /home/linuxadmin/app_api.py
+chown -R linuxadmin:linuxadmin /home/linuxadmin/api_env /home/linuxadmin/app_api.py
 
 cat << 'SERVICE' > /etc/systemd/system/app-api.service
 [Unit]
@@ -56,7 +58,7 @@ After=network-online.target
 
 [Service]
 User=linuxadmin
-ExecStart=/usr/bin/python3 /home/linuxadmin/app_api.py
+ExecStart=/home/linuxadmin/api_env/bin/python /home/linuxadmin/app_api.py
 Restart=always
 RestartSec=5
 StandardOutput=append:/home/linuxadmin/app.log
