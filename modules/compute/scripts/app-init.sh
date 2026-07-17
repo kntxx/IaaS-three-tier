@@ -1,7 +1,9 @@
 #!/bin/bash
 apt-get update
 apt-get install -y python3-pip
-pip3 install flask psycopg2-binary azure-storage-blob
+
+
+pip3 install flask psycopg2-binary azure-storage-blob --break-system-packages
 
 cat << 'PYTHON' > /home/linuxadmin/app_api.py
 from flask import Flask, jsonify
@@ -34,7 +36,6 @@ def health_check():
 
     try:
         blob_service_client = BlobServiceClient.from_connection_string(storage_conn_str)
-        # Fetching the list of containers to prove our secure authentication works
         containers = list(blob_service_client.list_containers())
         storage_status = f"Successfully connected to Azure Blob Storage! Found {len(containers)} container(s)."
     except Exception as e:
