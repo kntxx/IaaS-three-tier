@@ -51,7 +51,17 @@ resource "azurerm_network_security_group" "nsg_app" {
         source_address_prefixes    = var.snet_web_compute_prefix
         destination_address_prefix = "*"  
     }
-
+    security_rule {
+        name                       = "Allow-ILB-Health-Probe"
+        priority                   = 105
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "8080"
+        source_address_prefix      = "AzureLoadBalancer"
+        destination_address_prefix = "*"  
+    }
     security_rule {
         name                       = "Allow-SSH-Bastion"
         priority                   = 110
