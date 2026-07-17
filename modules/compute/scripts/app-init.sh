@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Wait for any competing apt process (e.g. unattended-upgrades on first boot) to release the lock
+while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+  sleep 5
+done
+
 apt-get update
 apt-get install -y python3-pip python3-venv
 
