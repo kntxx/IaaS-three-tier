@@ -91,6 +91,7 @@ module "compute" {
 
   storage_access_key   = module.storage.storage_access_key
   storage_account_name = module.storage.storage_account_name
+  env = var.env
 }
 
 

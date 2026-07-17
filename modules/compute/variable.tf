@@ -61,3 +61,7 @@ variable "storage_access_key" {
   type      = string
   sensitive = true
 }
+
+variable "env" {
+  type = string
+}

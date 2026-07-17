@@ -1,12 +1,9 @@
-# ------------------------------------------------------------------------------------------------───
-# 1. WEB TIER NSG
-# ------------------------------------------------------------------------------------------------───
 resource "azurerm_network_security_group" "nsg_web" {
   name                = "nsg-web"
   location            = var.location
   resource_group_name = var.rg_name
 
-  # Allow HTTP/HTTPS from the Application Gateway in the Hub
+ 
   security_rule {
     name                       = "Allow-HTTPS-From-AppGW"
     priority                   = 100
@@ -36,10 +33,6 @@ resource "azurerm_subnet_network_security_group_association" "web_nsg_assoc" {
   subnet_id = azurerm_subnet.snet_web_compute.id
   network_security_group_id = azurerm_network_security_group.nsg_web.id
 }
-
-# ------------------------------------------------------------------------------------------------───
-# 2. APP TIER NSG
-# ------------------------------------------------------------------------------------------------───
 
 
 resource "azurerm_network_security_group" "nsg_app" {
@@ -77,10 +70,6 @@ resource "azurerm_subnet_network_security_group_association" "app_nsg_assoc" {
   network_security_group_id = azurerm_network_security_group.nsg_app.id
 }
 
-
-# ------------------------------------------------------------------------------------------------───
-# 3. DATA TIER NSG (The most locked down)
-# ------------------------------------------------------------------------------------------------───
 
 resource "azurerm_network_security_group" "nsg_db" {
     name                = "nsg-db"
