@@ -6,8 +6,6 @@ resource "azurerm_storage_account" "sa" {
     account_replication_type = "LRS"
     min_tls_version          = "TLS1_2"
     allow_nested_items_to_be_public = false
-    public_network_access_enabled = true
-
 }
 
 resource "azurerm_storage_container" "app_assets" {
