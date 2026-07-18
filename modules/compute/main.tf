@@ -25,9 +25,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
   }
 
   rolling_upgrade_policy {
-    max_batch_instance_percent              = 50
-    max_unhealthy_instance_percent          = 50
-    max_unhealthy_upgraded_instance_percent = 50
+    max_batch_instance_percent              = 100
+    max_unhealthy_instance_percent          = 100
+    max_unhealthy_upgraded_instance_percent = 100
     pause_time_between_batches              = "PT30S"
   }
   admin_ssh_key {
