@@ -5,3 +5,10 @@ variable "rg_name" {
 variable "location" {
   type = string
 }
+variable "vnet_app_id" {
+  type        = string
+}
+
+variable "app_subnet_id" {
+  type        = string
+}
