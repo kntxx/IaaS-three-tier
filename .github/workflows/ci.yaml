@@ -30,6 +30,12 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Get Runner IP
+        run: |
+          RUNNER_IP=$(curl -s ifconfig.me)
+          echo "TF_VAR_pipeline_runner_ip=$RUNNER_IP" >> $GITHUB_ENV
+          echo "The pipeline IP is $RUNNER_IP"    
+
       - name: Terraform Init
         run: terraform init -backend-config="key=dev.terraform.tfstate"
 

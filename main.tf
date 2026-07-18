@@ -128,6 +128,7 @@ module "storage" {
   location = azurerm_resource_group.rg.location
   vnet_app_id = module.network.vnet_app_id
   app_subnet_id = module.network.snet_app_comp_id
+  pipeline_runner_ip = var.pipeline_runner_ip
 }
 
 module "monitoring" {

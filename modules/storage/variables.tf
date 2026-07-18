@@ -12,3 +12,7 @@ variable "vnet_app_id" {
 variable "app_subnet_id" {
   type        = string
 }
+
+variable "pipeline_runner_ip" {
+  type        = string
+}

@@ -21,6 +21,10 @@ variable "datadog_app_key" {
 }
 
 variable "admin_object_id" {
-  description = "Personal Azure AD object ID for Key Vault access"
   type        = string
+}
+
+variable "pipeline_runner_ip" {
+  type        = string
+  default = "0.0.0.0"
 }
