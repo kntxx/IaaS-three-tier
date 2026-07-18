@@ -24,7 +24,3 @@ variable "admin_object_id" {
   type        = string
 }
 
-variable "pipeline_runner_ip" {
-  type        = string
-  default = "0.0.0.0"
-}
