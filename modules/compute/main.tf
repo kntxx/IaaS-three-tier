@@ -10,6 +10,20 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
   zones                           = ["1", "2", "3"]
   sku                             = "Standard_B2ats_v2"
 
+    extension {
+    name                        = "datadog_web"
+    publisher                   = "Datadog.Agent"
+    type                        = "DatadogLinuxAgent"
+    type_handler_version        = "7.0"
+    auto_upgrade_minor_version  = true
+    settings = jsonencode({
+      site = "us5.datadoghq.com"
+    })
+    protected_settings = jsonencode({
+      api_key = var.datadog_api_key
+    })
+  }
+
   admin_ssh_key {
     username   = var.vm_username
     public_key = var.admin_ssh_public_key
@@ -43,6 +57,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
       internal_lb_ip = var.internal_lb_ip
     })
   )
+
+  
 }
 
 resource "azurerm_monitor_autoscale_setting" "web_autoscale" {
@@ -109,7 +125,19 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
   disable_password_authentication = true
   zones                           = ["1", "2", "3"]
   sku                             = "Standard_B2ats_v2"
-
+  extension {
+    name                        = "datadog_web"
+    publisher                   = "Datadog.Agent"
+    type                        = "DatadogLinuxAgent"
+    type_handler_version        = "7.0"
+    auto_upgrade_minor_version  = true
+    settings = jsonencode({
+      site = "us5.datadoghq.com"
+    })
+    protected_settings = jsonencode({
+      api_key = var.datadog_api_key
+    })
+  }
   admin_ssh_key {
     username   = var.vm_username
     public_key = var.admin_ssh_public_key
@@ -205,36 +233,36 @@ resource "azurerm_monitor_autoscale_setting" "app_autoscale" {
   }
 }
 
-resource "azurerm_virtual_machine_scale_set_extension" "datadog_web" {
-  name                         = "datadog_web"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_web.id
-  publisher                    = "Datadog.Agent"
-  type                         = "DatadogLinuxAgent"
-  type_handler_version         = "7.0"
-  auto_upgrade_minor_version   = true
-  settings = jsonencode({
-    site = "us5.datadoghq.com"
-    tags = ["environment:${var.env}"]
-  })
-  protected_settings = jsonencode({
-    api_key = var.datadog_api_key
-  })
-}
+# resource "azurerm_virtual_machine_scale_set_extension" "datadog_web" {
+#   name                         = "datadog_web"
+#   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_web.id
+#   publisher                    = "Datadog.Agent"
+#   type                         = "DatadogLinuxAgent"
+#   type_handler_version         = "7.0"
+#   auto_upgrade_minor_version   = true
+#   settings = jsonencode({
+#     site = "us5.datadoghq.com"
+#     tags = ["environment:${var.env}"]
+#   })
+#   protected_settings = jsonencode({
+#     api_key = var.datadog_api_key
+#   })
+# }
 
 
-resource "azurerm_virtual_machine_scale_set_extension" "datadog_app" {
-  name                         = "datadog_app"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_app.id
-  publisher                    = "Datadog.Agent"
-  type                         = "DatadogLinuxAgent"
-  type_handler_version         = "7.0"
-  auto_upgrade_minor_version   = true
+# resource "azurerm_virtual_machine_scale_set_extension" "datadog_app" {
+#   name                         = "datadog_app"
+#   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_app.id
+#   publisher                    = "Datadog.Agent"
+#   type                         = "DatadogLinuxAgent"
+#   type_handler_version         = "7.0"
+#   auto_upgrade_minor_version   = true
 
-  settings = jsonencode({
-    site = "us5.datadoghq.com"
-    tags = ["environment:${var.env}"]
-  })
-  protected_settings = jsonencode({
-    api_key = var.datadog_api_key
-  })
-}
+#   settings = jsonencode({
+#     site = "us5.datadoghq.com"
+#     tags = ["environment:${var.env}"]
+#   })
+#   protected_settings = jsonencode({
+#     api_key = var.datadog_api_key
+#   })
+# }
