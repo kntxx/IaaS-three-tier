@@ -9,9 +9,22 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
   disable_password_authentication = true
   zones                           = ["1", "2", "3"]
   sku                             = "Standard_B2ats_v2"
-  upgrade_mode = "Rolling"
-  
- rolling_upgrade_policy {
+  upgrade_mode                    = "Rolling"
+
+  extension {
+    name                       = "ApplicationHealthExtension"
+    publisher                  = "Microsoft.ManagedServices"
+    type                       = "ApplicationHealthLinux"
+    type_handler_version       = "2.0"
+    auto_upgrade_minor_version = true
+    settings = jsonencode({
+      protocol    = "http"
+      port        = 80
+      requestPath = "/"
+    })
+  }
+
+  rolling_upgrade_policy {
     max_batch_instance_percent              = 50
     max_unhealthy_instance_percent          = 50
     max_unhealthy_upgraded_instance_percent = 50
@@ -51,20 +64,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_web" {
     })
   )
 }
-resource "azurerm_virtual_machine_scale_set_extension" "health_web" {
-  name                         = "health-extension"
-  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.vmss_web.id
-  publisher                    = "Microsoft.ManagedServices"
-  type                         = "ApplicationHealthLinux"
-  type_handler_version         = "2.0"
-  auto_upgrade_minor_version   = true
 
-  settings = jsonencode({
-    protocol    = "http"
-    port        = 80
-    requestPath = "/"
-  })
-}
 resource "azurerm_monitor_autoscale_setting" "web_autoscale" {
   name                = "autoscale-web"
   resource_group_name = var.rg_name
@@ -77,7 +77,7 @@ resource "azurerm_monitor_autoscale_setting" "web_autoscale" {
     capacity {
       minimum = 1
       default = 1
-      maximum = 2  
+      maximum = 2
     }
 
     rule {
@@ -129,12 +129,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
   disable_password_authentication = true
   zones                           = ["1", "2", "3"]
   sku                             = "Standard_B2ats_v2"
-  upgrade_mode = "Rolling"
-  health_probe_id = var.internal_lb_probe_id
+  upgrade_mode                    = "Rolling"
+  health_probe_id                 = var.internal_lb_probe_id
   rolling_upgrade_policy {
-    max_batch_instance_percent              = 50
-    max_unhealthy_instance_percent          = 50
-    max_unhealthy_upgraded_instance_percent = 50
+    max_batch_instance_percent              = 100
+    max_unhealthy_instance_percent          = 100
+    max_unhealthy_upgraded_instance_percent = 100
     pause_time_between_batches              = "PT30S"
   }
 
@@ -190,7 +190,7 @@ resource "azurerm_monitor_autoscale_setting" "app_autoscale" {
     capacity {
       minimum = 1
       default = 1
-      maximum = 2   
+      maximum = 2
     }
 
     rule {
