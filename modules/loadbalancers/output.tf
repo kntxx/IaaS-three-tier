@@ -10,3 +10,7 @@ output "internal_lb_backendpool_id" {
 output "internal_lb_ip" {
   value = azurerm_lb.internal_lb.private_ip_address
 }
+
+output "internal_lb_probe_id" {
+  value = azurerm_lb_probe.app_probe.id
+}

@@ -65,3 +65,7 @@ variable "storage_access_key" {
 variable "env" {
   type = string
 }
+
+variable "internal_lb_probe_id" {
+  type = string
+}
