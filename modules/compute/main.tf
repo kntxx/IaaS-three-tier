@@ -109,7 +109,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss_app" {
   disable_password_authentication = true
   zones                           = ["1", "2", "3"]
   sku                             = "Standard_B2ats_v2"
-  upgrade_mode                    = "Rolling"
 
   admin_ssh_key {
     username   = var.vm_username
