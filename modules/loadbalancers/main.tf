@@ -55,17 +55,18 @@ resource "azurerm_application_gateway" "appgw" {
   }
 
   probe {
-    name                 = "probe-web-health"
-    protocol             = "Http"
-    path                 = "/"
-    interval             = 30
-    timeout              = 20
-    unhealthy_threshold  = 3
+  name                = "probe-web-health"
+  protocol            = "Http"
+  host                = "127.0.0.1"
+  path                = "/"
+  interval            = 30
+  timeout             = 20
+  unhealthy_threshold = 3
 
-    match {
-      status_code = ["200-399"]
-    }
+  match {
+    status_code = ["200-399"]
   }
+}
   http_listener {
     name                           = "listener-http"
     frontend_ip_configuration_name = "frontend-ip"
