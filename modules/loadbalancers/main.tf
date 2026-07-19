@@ -18,6 +18,8 @@ resource "azurerm_application_gateway" "appgw" {
     tier = "Standard_v2"
   }
 
+
+
   autoscale_configuration {
     min_capacity = 2
     max_capacity = 5
@@ -49,8 +51,22 @@ resource "azurerm_application_gateway" "appgw" {
     port                  = 80
     protocol              = "Http"
     request_timeout       = 60
+    probe_name            = "probe-web-health"
   }
 
+  probe {
+    name                                      = "probe-web-health"
+    protocol                                  = "Http"
+    path                                      = "/"
+    interval                                  = 30
+    timeout                                   = 20
+    unhealthy_threshold                       = 3
+    pick_host_name_from_backend_http_settings = true
+
+    match {
+      status_code = ["200-399"]
+    }
+  }
   http_listener {
     name                           = "listener-http"
     frontend_ip_configuration_name = "frontend-ip"
