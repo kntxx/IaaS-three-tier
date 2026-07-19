@@ -55,13 +55,12 @@ resource "azurerm_application_gateway" "appgw" {
   }
 
   probe {
-    name                                      = "probe-web-health"
-    protocol                                  = "Http"
-    path                                      = "/"
-    interval                                  = 30
-    timeout                                   = 20
-    unhealthy_threshold                       = 3
-    pick_host_name_from_backend_http_settings = true
+    name                 = "probe-web-health"
+    protocol             = "Http"
+    path                 = "/"
+    interval             = 30
+    timeout              = 20
+    unhealthy_threshold  = 3
 
     match {
       status_code = ["200-399"]
