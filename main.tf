@@ -133,6 +133,6 @@ module "monitoring" {
 
   web_vmss_id   = module.compute.web_vmss_id
   app_vmss_id = module.compute.app_vmss_id
-  postgres_name = module.database.postgres_server_name
+  
   env           = var.env
 }
