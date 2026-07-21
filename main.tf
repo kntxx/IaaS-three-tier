@@ -47,7 +47,6 @@ module "network" {
   hub_cidr                = ["10.0.0.0/16"]
   snet_hub_appgw_prefix   = ["10.0.4.0/24"]
   snet_hub_bastion_prefix = ["10.0.5.0/24"]
-  snet_hub_shared_prefix  = ["10.0.6.0/24"]
 
   web_cidr                = ["10.1.0.0/16"]
   snet_web_compute_prefix = ["10.1.4.0/24"]
