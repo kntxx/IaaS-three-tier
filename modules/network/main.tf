@@ -72,34 +72,49 @@ resource "azurerm_subnet" "snet_app_db" {
     }
   }
 }
+#---------------------------------------------------------
+# ARCHITECTURE NOTE: WEB TIER NAT GATEWAY (TEMPORARILY DISABLED)
+#
+# The ideal Hub-Spoke architecture includes a dedicated NAT Gateway 
+# for the vnet-web to prevent SNAT port exhaustion. However, this block 
+# is currently commented out due to a strict Azure subscription quota 
+# limit of 3 Public IP (PIP) addresses per region.
+#
+# Current active PIP usage in this deployment:
+# 1. pip-bastion (Hub VNet)
+# 2. pip-appgw (Web VNet)
+# 3. pip-nat-app (App VNet)
+#
+# While this code is disabled, the Web VMSS tier will temporarily rely 
+# on Azure's Default Outbound Access. To deploy this securely in a 
+# production environment, request a PIP quota increase and uncomment.
+#---------------------------------------------------------
+# resource "azurerm_public_ip" "pip_web" {
+#   name                = "pip-nat-web"
+#   location            = var.location
+#   resource_group_name = var.rg_name
+#   allocation_method   = "Static"
+#   sku                 = "Standard"
+# }
+
+# resource "azurerm_nat_gateway" "nat_web" {
+#   name                = "nat-gateway-web"
+#   location            = var.location
+#   resource_group_name = var.rg_name
+#   sku_name            = "Standard"
+# }
 
 
-resource "azurerm_public_ip" "pip_web" {
-  name                = "pip-nat-web"
-  location            = var.location
-  resource_group_name = var.rg_name
-  allocation_method   = "Static"
-  sku                 = "Standard"
-}
-
-resource "azurerm_nat_gateway" "nat_web" {
-  name                = "nat-gateway-web"
-  location            = var.location
-  resource_group_name = var.rg_name
-  sku_name            = "Standard"
-}
+# resource "azurerm_nat_gateway_public_ip_association" "assoc_pip_nat_web" {
+#   nat_gateway_id       = azurerm_nat_gateway.nat_web.id
+#   public_ip_address_id = azurerm_public_ip.pip_web.id
+# }
 
 
-resource "azurerm_nat_gateway_public_ip_association" "assoc_pip_nat_web" {
-  nat_gateway_id       = azurerm_nat_gateway.nat_web.id
-  public_ip_address_id = azurerm_public_ip.pip_web.id
-}
-
-
-resource "azurerm_subnet_nat_gateway_association" "assoc_snet_nat_web" {
-  nat_gateway_id = azurerm_nat_gateway.nat_web.id
-  subnet_id      = azurerm_subnet.snet_web_compute.id
-}
+# resource "azurerm_subnet_nat_gateway_association" "assoc_snet_nat_web" {
+#   nat_gateway_id = azurerm_nat_gateway.nat_web.id
+#   subnet_id      = azurerm_subnet.snet_web_compute.id
+# }
 
 resource "azurerm_public_ip" "pip_nat" {
   name                = "pip-nat-app"
