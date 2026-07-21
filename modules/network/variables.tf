@@ -17,9 +17,6 @@ variable "snet_hub_appgw_prefix" {
 variable "snet_hub_bastion_prefix" {
   type = list(string)
 }
-variable "snet_hub_shared_prefix" {
-  type = list(string)
-}
 
 
 variable "web_cidr" {
